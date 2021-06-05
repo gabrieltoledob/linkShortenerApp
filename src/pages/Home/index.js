@@ -11,7 +11,9 @@ import { Feather } from '@expo/vector-icons';
 import { ContainerLogo, Logo, ContainerContent, Title, SubTitle,
          ContainerInput, BoxIcon, Input, ButtonLink, ButtonLinkText} from './styles';
 import ModalLink from '../../components/ModalLink';
+
 import api from '../../services/api';
+import { saveLink } from '../../utils/storeLinks';
 
 export default function Home (){
   const [loading, setLoading] = useState(false);
@@ -29,6 +31,8 @@ export default function Home (){
       })
       setData(response.data);
       setModalVisible(true);
+
+      saveLink('links', response.data);
 
       Keyboard.dismiss();
       setLoading(false);
@@ -98,8 +102,7 @@ export default function Home (){
 
     </KeyboardAvoidingView>
 
-    <Modal
-      visible={modalVisible} transparent animationType='slide'>
+    <Modal visible={modalVisible} transparent animationType='slide'>
       <ModalLink onClose={ () => setModalVisible(false) } data={data} />
     </Modal>
 
